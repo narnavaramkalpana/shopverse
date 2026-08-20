@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - ShopVerse</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Special modal styling local to checkout success */
+    .success-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .success-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .success-modal {
+      background-color: white;
+      border-radius: var(--border-radius-lg);
+      padding: 3rem 2rem;
+      max-width: 28rem;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .success-modal-overlay.active .success-modal {
+      transform: scale(1);
+    }
+    .success-icon {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 50%;
+      background-color: #d1fae5;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="seller.html">Seller Portal</a></li>
+        <li><a href="admin.html">Admin Portal</a></li>
+        <li><a href="info.html">Help & FAQ</a></li>
+        <li id="authNavItem"><a href="login.html">Login</a></li>
+        <li id="registerNavItem"><a href="register.html">Register</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-btn" title="Wishlist" onclick="window.location.href='cart.html#wishlistSection'">
+          <i data-lucide="heart"></i>
+          <span class="nav-badge" id="wishlistBadge">0</span>
+        </button>
+        <button class="nav-btn" title="Shopping Cart" onclick="window.location.href='cart.html'">
+          <i data-lucide="shopping-cart"></i>
+          <span class="nav-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="min-height: 75vh; padding-top: 2rem;">
+    <h1>Secure Checkout</h1>
+    
+    <div class="cart-grid" style="margin-top: 1.5rem; margin-bottom: 5rem;">
+      
+      <!-- Left Column: Shipping & Billing Form -->
+      <form class="cart-table-card auth-form" id="checkoutForm" novalidate style="padding: 2rem; gap: 1.5rem;">
+        
+        <h3 style="font-size: 1.25rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+          <i data-lucide="truck" style="width: 1.1rem; height: 1.1rem; display: inline-block; vertical-align: middle; margin-right: 0.25rem;"></i> Shipping Details
+        </h3>
+
+        <!-- Full Name & Email -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group" id="groupShipName">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="shipName" placeholder="John Doe" required style="padding-left: 1rem;">
+            <span class="form-error">Required</span>
+          </div>
+          <div class="form-group" id="groupShipEmail">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="shipEmail" placeholder="john@example.com" required style="padding-left: 1rem;">
+            <span class="form-error">Enter a valid email</span>
+          </div>
+        </div>
+
+        <!-- Address & City/ZIP -->
+        <div class="form-group" id="groupShipAddress">
+          <label class="form-label">Street Address</label>
+          <input type="text" class="form-control" id="shipAddress" placeholder="123 Main St, Apt 4B" required style="padding-left: 1rem;">
+          <span class="form-error">Required</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+          <div class="form-group" id="groupShipCity">
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" id="shipCity" placeholder="San Francisco" required style="padding-left: 1rem;">
+            <span class="form-error">Required</span>
+          </div>
+          <div class="form-group" id="groupShipZip">
+            <label class="form-label">ZIP Code</label>
+            <input type="text" class="form-control" id="shipZip" placeholder="94103" required style="padding-left: 1rem;">
+            <span class="form-error">Invalid ZIP</span>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.25rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 0.5rem; margin-top: 1rem;">
+          <i data-lucide="credit-card" style="width: 1.1rem; height: 1.1rem; display: inline-block; vertical-align: middle; margin-right: 0.25rem;"></i> Payment Method
+        </h3>
+
+        <!-- Credit Card Fields -->
+        <div class="form-group" id="groupCardName">
+          <label class="form-label">Cardholder Name</label>
+          <input type="text" class="form-control" id="cardName" placeholder="JOHN DOE" required style="padding-left: 1rem;">
+          <span class="form-error">Required</span>
+        </div>
+
+        <div class="form-group" id="groupCardNumber">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-control" id="cardNumber" placeholder="1111-2222-3333-4444" maxlength="19" required style="padding-left: 1rem;">
+          <span class="form-error">Enter a valid 16-digit card number</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group" id="groupCardExpiry">
+            <label class="form-label">Expiration Date</label>
+            <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5" required style="padding-left: 1rem;">
+            <span class="form-error">MM/YY format</span>
+          </div>
+          <div class="form-group" id="groupCardCvv">
+            <label class="form-label">CVV Code</label>
+            <input type="password" class="form-control" id="cardCvv" placeholder="•••" maxlength="3" required style="padding-left: 1rem;">
+            <span class="form-error">3 digits</span>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-btn" style="margin-top: 1rem;">
+          <i data-lucide="shield-check" style="width: 1.1rem; height: 1.1rem;"></i> Complete Secure Payment
+        </button>
+      </form>
+
+      <!-- Right Column: Order Summary Review -->
+      <div class="summary-card">
+        <h3 class="summary-title">Review Items</h3>
+        
+        <div id="checkoutItemsList" style="max-height: 12rem; overflow-y: auto; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; padding-right: 0.25rem;">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summarySubtotal">$0.00</span>
+        </div>
+        <div class="summary-row" id="couponRow" style="display: none; color: #10b981;">
+          <span>Coupon Discount (20%)</span>
+          <span id="summaryDiscount">-$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span id="summaryShipping">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Estimated Tax (18%)</span>
+          <span id="summaryTax">$0.00</span>
+        </div>
+        
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span id="summaryTotal">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Checkout Success Modal Overlay -->
+  <div class="success-modal-overlay" id="successModalOverlay">
+    <div class="success-modal">
+      <div class="success-icon">
+        <i data-lucide="check"></i>
+      </div>
+      <h2 style="margin-bottom: 0.5rem; color: var(--color-text-title);">Order Placed!</h2>
+      <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Thank you for your purchase. Your payment was verified securely.</p>
+      
+      <div style="background-color: var(--color-bg); padding: 1rem; border-radius: var(--border-radius-md); font-family: monospace; font-size: 0.95rem; font-weight: 700; color: var(--color-primary); margin-bottom: 2rem;" id="successOrderIdDisplay">
+        SV-XXXXX-2026
+      </div>
+
+      <button class="auth-btn" id="trackOrderRedirectBtn" style="width: 100%;">
+        Track Your Order <i data-lucide="arrow-right" style="width: 1.1rem; height: 1.1rem;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="footer-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <p>Your one-stop destination for quality products at the best prices.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="seller.html">Seller Portal</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Subscribe</h3>
+        <form class="subscribe-form" onsubmit="event.preventDefault(); showToast('Subscribed successfully!', 'success');">
+          <input type="email" class="subscribe-input" placeholder="Enter your email" required>
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Us</h3>
+        <p>shopverse@goofle.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShopVerse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Global scripts -->
+  <script src="auth.js"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+    let couponApplied = localStorage.getItem('couponApplied') === 'true';
+    let finalOrderTotal = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (cart.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      // Pre-fill fields if user logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser) {
+        document.getElementById('shipName').value = currentUser.name;
+        document.getElementById('shipEmail').value = currentUser.email;
+      }
+
+      renderSummaryItems();
+      updateCartWishlistBadges();
+      
+      const form = document.getElementById('checkoutForm');
+      if (form) {
+        form.addEventListener('submit', handleCheckoutSubmit);
+      }
+      
+      lucide.createIcons();
+    });
+
+    function updateCartWishlistBadges() {
+      const cartBadge = document.getElementById('cartBadge');
+      const wishlistBadge = document.getElementById('wishlistBadge');
+      if (cartBadge) cartBadge.textContent = cart.length;
+      if (wishlistBadge) wishlistBadge.textContent = wishlist.length;
+    }
+
+    function renderSummaryItems() {
+      const list = document.getElementById('checkoutItemsList');
+      if (!list) return;
+
+      list.innerHTML = '';
+      
+      // Count frequency grouping
+      const counts = {};
+      const uniqueItems = [];
+      cart.forEach(item => {
+        if (!counts[item.id]) {
+          counts[item.id] = 1;
+          uniqueItems.push(item);
+        } else {
+          counts[item.id]++;
+        }
+      });
+
+      let subtotal = 0;
+
+      uniqueItems.forEach(item => {
+        const qty = counts[item.id];
+        subtotal += item.price * qty;
+        
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.fontSize = '0.85rem';
+        div.style.borderBottom = '1px solid var(--color-border)';
+        div.style.paddingBottom = '0.5rem';
+        
+        div.innerHTML = `
+          <span style="font-weight: 500; display: inline-block; max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            ${item.title} <span style="color: var(--color-text-muted);">x${qty}</span>
+          </span>
+          <span style="font-weight: 600;">$${(item.price * qty).toFixed(2)}</span>
+        `;
+        list.appendChild(div);
+      });
+
+      // Calculate totals
+      let discount = 0;
+      if (couponApplied) {
+        discount = subtotal * 0.20;
+        document.getElementById('couponRow').style.display = 'flex';
+        document.getElementById('summaryDiscount').textContent = `-$${discount.toFixed(2)}`;
+      } else {
+        document.getElementById('couponRow').style.display = 'none';
+      }
+
+      const shipping = subtotal > 50 ? 0 : 10;
+      const tax = (subtotal - discount) * 0.18;
+      finalOrderTotal = subtotal - discount + shipping + tax;
+
+      document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('summaryShipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+      document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('summaryTotal').textContent = `$${finalOrderTotal.toFixed(2)}`;
+    }
+
+    function handleCheckoutSubmit(e) {
+      e.preventDefault();
+      
+      const shipName = document.getElementById('shipName');
+      const shipEmail = document.getElementById('shipEmail');
+      const shipAddress = document.getElementById('shipAddress');
+      const shipCity = document.getElementById('shipCity');
+      const shipZip = document.getElementById('shipZip');
+      const cardName = document.getElementById('cardName');
+      const cardNumber = document.getElementById('cardNumber');
+      const cardExpiry = document.getElementById('cardExpiry');
+      const cardCvv = document.getElementById('cardCvv');
+      
+      let isValid = true;
+
+      // Simple field checks
+      if (!shipName.value.trim()) { toggleErr('groupShipName', true); isValid = false; } else toggleErr('groupShipName', false);
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(shipEmail.value.trim())) { toggleErr('groupShipEmail', true); isValid = false; } else toggleErr('groupShipEmail', false);
+      
+      if (!shipAddress.value.trim()) { toggleErr('groupShipAddress', true); isValid = false; } else toggleErr('groupShipAddress', false);
+      if (!shipCity.value.trim()) { toggleErr('groupShipCity', true); isValid = false; } else toggleErr('groupShipCity', false);
+      if (!shipZip.value.trim() || shipZip.value.length < 5) { toggleErr('groupShipZip', true); isValid = false; } else toggleErr('groupShipZip', false);
+      
+      if (!cardName.value.trim()) { toggleErr('groupCardName', true); isValid = false; } else toggleErr('groupCardName', false);
+      if (cardNumber.value.replace(/\s+/g, '').length < 16) { toggleErr('groupCardNumber', true); isValid = false; } else toggleErr('groupCardNumber', false);
+      if (!cardExpiry.value.includes('/') || cardExpiry.value.length < 5) { toggleErr('groupCardExpiry', true); isValid = false; } else toggleErr('groupCardExpiry', false);
+      if (cardCvv.value.length < 3) { toggleErr('groupCardCvv', true); isValid = false; } else toggleErr('groupCardCvv', false);
+
+      if (isValid) {
+        // Place Order
+        const orderId = 'SV-' + Math.floor(10000 + Math.random() * 90000) + '-' + new Date().getFullYear();
+        
+        const newOrder = {
+          orderId: orderId,
+          date: new Date().toLocaleDateString(),
+          items: cart,
+          total: finalOrderTotal,
+          status: 'Placed', // Placed, Shipped, Out for Delivery, Delivered
+          shippingAddress: {
+            name: shipName.value.trim(),
+            address: shipAddress.value.trim(),
+            city: shipCity.value.trim(),
+            zip: shipZip.value.trim()
+          }
+        };
+
+        // Save order to history
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(newOrder);
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        // Clear cart and coupon state
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('couponApplied');
+
+        // Show Modal
+        document.getElementById('successOrderIdDisplay').textContent = orderId;
+        const successModalOverlay = document.getElementById('successModalOverlay');
+        successModalOverlay.classList.add('active');
+
+        // Redirect handler
+        document.getElementById('trackOrderRedirectBtn').addEventListener('click', () => {
+          window.location.href = `dashboard.html?track=${orderId}`;
+        });
+      }
+    }
+
+    function toggleErr(groupId, show) {
+      const g = document.getElementById(groupId);
+      if (g) {
+        if (show) g.classList.add('has-error');
+        else g.classList.remove('has-error');
+      }
+    }
+  </script>
+</body>
+</html>

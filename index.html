@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopVerse - Discover Trending Products</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="seller.html">Seller Portal</a></li>
+        <li><a href="admin.html">Admin Portal</a></li>
+        <li><a href="info.html">Help & FAQ</a></li>
+        <li id="authNavItem"><a href="login.html">Login</a></li>
+        <li id="registerNavItem"><a href="register.html">Register</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Wishlist Button -->
+        <button class="nav-btn" onclick="window.location.href='#'" title="Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="nav-badge" id="wishlistBadge">0</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="nav-btn" onclick="window.location.href='#'" title="Shopping Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="nav-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Hero Slider / Carousel -->
+    <section class="hero-slider" id="heroSlider">
+      <!-- Slide 1 -->
+      <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&width=1600&auto=format&fit=crop');">
+        <div class="slide-overlay">
+          <h2>Discover Trending Products</h2>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&width=1600&auto=format&fit=crop');">
+        <div class="slide-overlay">
+          <h2>Summer Fashion Clearance</h2>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&width=1600&auto=format&fit=crop');">
+        <div class="slide-overlay">
+          <h2>Modern Interior & Decor</h2>
+        </div>
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="slider-dots" id="sliderDots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+      </div>
+    </section>
+
+    <!-- Filters & Search Bar -->
+    <section class="filter-search-bar">
+      <div class="categories-container" id="categoriesContainer">
+        <button class="category-btn active" data-category="all">All</button>
+        <button class="category-btn" data-category="beauty">Beauty</button>
+        <button class="category-btn" data-category="fragrances">Fragrances</button>
+        <button class="category-btn" data-category="furniture">Furniture</button>
+        <button class="category-btn" data-category="groceries">Groceries</button>
+        <button class="category-btn" data-category="smartphones">Smartphones</button>
+      </div>
+
+      <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+        <button class="search-btn" id="searchBtn" title="Search">
+          <i data-lucide="search"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section>
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be dynamically populated here by app.js -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--color-text-muted);">
+          <i data-lucide="loader" class="animate-spin" style="margin: 0 auto 1rem; width: 2rem; height: 2rem;"></i>
+          <p>Loading catalog products...</p>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <!-- Pagination controls generated dynamically -->
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="truck"></i>
+        </div>
+        <div>
+          <h3>Free Shipping</h3>
+          <p>Orders above $50</p>
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="rotate-ccw"></i>
+        </div>
+        <div>
+          <h3>Free Returns</h3>
+          <p>Within 7 days</p>
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="phone-call"></i>
+        </div>
+        <div>
+          <h3>24/7 Support</h3>
+          <p>Always here to help</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is your return policy?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>We offer a 7-day free return policy for all unused products. Simply contact our support team or initiate a return from your dashboard to receive a pre-paid shipping label.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How long does delivery take?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Standard delivery takes 3-5 business days. Express shipping is available at checkout and takes 1-2 business days depending on your location.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is online payment secure?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, all payments are processed securely through end-to-end encrypted payment gateways. We never store your full credit card credentials on our servers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="footer-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <p>Your one-stop destination for quality products at the best prices. Discover deals, order securely, and enjoy fast home delivery.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Cart</a></li>
+          <li><a href="#">Wishlist</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Subscribe</h3>
+        <p>Subscribe to receive sales alerts, coupons, and new stock notifications.</p>
+        <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+          <input type="email" class="subscribe-input" placeholder="Enter your email" required>
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i data-lucide="phone" style="width: 1rem; height: 1rem;"></i>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="contact-item">
+            <i data-lucide="mail" style="width: 1rem; height: 1rem;"></i>
+            <span>shopverse@goofle.com</span>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-btn"><i data-lucide="instagram"></i></a>
+            <a href="#" class="social-btn"><i data-lucide="facebook"></i></a>
+            <a href="#" class="social-btn"><i data-lucide="twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShopVerse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Product Details Modal Overlay -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" title="Close"><i data-lucide="x"></i></button>
+      <div id="modalBody">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Shopping Assistant Chatbubble -->
+  <div class="chat-bubble" id="chatBubble" title="Chat with AI Assistant">
+    <i data-lucide="message-square"></i>
+  </div>
+
+  <!-- AI Chat Window -->
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <h3><i data-lucide="bot"></i> AI Shopping Assistant</h3>
+      <button class="chat-close" id="chatCloseBtn"><i data-lucide="x"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        Hello! I am your ShopVerse AI Assistant. How can I help you find products or apply coupons today? Try clicking some suggestions below!
+      </div>
+    </div>
+    <div class="chat-quick-replies">
+      <button class="quick-reply-btn" data-reply="Recommend some makeup">💄 Makeup</button>
+      <button class="quick-reply-btn" data-reply="Search for smartphones">📱 Smartphones</button>
+      <button class="quick-reply-btn" data-reply="Are there any coupon codes?">🎟️ Coupons</button>
+      <button class="quick-reply-btn" data-reply="Tell me about delivery times">🚚 Shipping</button>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Ask me something...">
+      <button class="chat-send-btn" id="chatSend"><i data-lucide="send"></i></button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Global scripts -->
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide icons on page load
+    lucide.createIcons();
+  </script>
+</body>
+</html>

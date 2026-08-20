@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - ShopVerse</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="auth-page">
+    
+    <!-- Split Screen Left Side: Marketing Graphics and text -->
+    <div class="auth-split-left">
+      <div class="auth-promo-content">
+        <a href="index.html" class="auth-promo-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <h1 class="auth-promo-title">Join the Universe of Infinite Deals.</h1>
+        <p class="auth-promo-subtitle">Create an account today and enjoy a personalized shopping experience with exclusive access to newly launched products and promotions.</p>
+        
+        <ul class="auth-features-list">
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Free Shipping</h4>
+              <p>Get free door delivery for orders exceeding $50.</p>
+            </div>
+          </li>
+          
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Exclusive Discount Alerts</h4>
+              <p>Be the first to hear about seasonal sales and clearance deals.</p>
+            </div>
+          </li>
+          
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Secure Checkout</h4>
+              <p>Your transactions are encrypted with state-of-the-art security.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Split Screen Right Side: Glassmorphic registration form card -->
+    <div class="auth-split-right">
+      <div class="auth-card">
+        
+        <div class="auth-header">
+          <h2>Create Account</h2>
+          <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+
+        <form class="auth-form" id="registerForm" novalidate>
+          
+          <!-- Full Name -->
+          <div class="form-group" id="groupName">
+            <label class="form-label" for="regName">Full Name</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="user"></i>
+              <input type="text" class="form-control" id="regName" placeholder="John Doe" required autocomplete="name">
+            </div>
+            <span class="form-error" id="errorName">Please enter your full name.</span>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group" id="groupEmail">
+            <label class="form-label" for="regEmail">Email Address</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="mail"></i>
+              <input type="email" class="form-control" id="regEmail" placeholder="yourname@example.com" required autocomplete="email">
+            </div>
+            <span class="form-error" id="errorEmail">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group" id="groupPassword">
+            <label class="form-label" for="regPassword">Password</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="lock"></i>
+              <input type="password" class="form-control" id="regPassword" placeholder="••••••••" required autocomplete="new-password">
+            </div>
+            <!-- Password Strength Bar -->
+            <div class="password-strength-container">
+              <div class="password-strength-bar">
+                <div class="password-strength-fill" id="strengthFill"></div>
+              </div>
+              <div class="password-strength-text" id="strengthText">Password Strength: Weak</div>
+            </div>
+            <span class="form-error" id="errorPassword">Password must be at least 6 characters.</span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group" id="groupConfirmPassword">
+            <label class="form-label" for="regConfirmPassword">Confirm Password</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="lock"></i>
+              <input type="password" class="form-control" id="regConfirmPassword" placeholder="••••••••" required autocomplete="new-password">
+            </div>
+            <span class="form-error" id="errorConfirmPassword">Passwords do not match.</span>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div class="form-group" id="groupTerms">
+            <div class="form-options">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="regTerms" required>
+                <span>I agree to the <a href="#" style="color: var(--color-primary); font-weight: 500;">Terms & Conditions</a></span>
+              </label>
+            </div>
+            <span class="form-error" id="errorTerms">You must agree to the terms.</span>
+          </div>
+
+          <!-- Register Submit Button -->
+          <button type="submit" class="auth-btn">
+            Create Account <i data-lucide="arrow-right" style="width: 1.1rem; height: 1.1rem;"></i>
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Authentication Script -->
+  <script src="auth.js"></script>
+  <script>
+    // Initialize Lucide icons on page load
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - ShopVerse</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="seller.html">Seller Portal</a></li>
+        <li><a href="admin.html" class="active">Admin Portal</a></li>
+        <li><a href="info.html">Help & FAQ</a></li>
+        <li id="authNavItem"><a href="login.html">Login</a></li>
+        <li id="registerNavItem"><a href="register.html">Register</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-btn" title="Wishlist" onclick="window.location.href='cart.html#wishlistSection'">
+          <i data-lucide="heart"></i>
+          <span class="nav-badge" id="wishlistBadge">0</span>
+        </button>
+        <button class="nav-btn" title="Shopping Cart" onclick="window.location.href='cart.html'">
+          <i data-lucide="shopping-cart"></i>
+          <span class="nav-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="min-height: 75vh;">
+    <div class="dashboard-layout">
+      
+      <!-- Left Sidebar navigation -->
+      <aside class="sidebar-card">
+        <div style="text-align: center; margin-bottom: 2rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1.5rem;">
+          <div style="width: 4.5rem; height: 4.5rem; border-radius: 50%; background-color: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 700; margin: 0 auto 0.75rem;">
+            A
+          </div>
+          <h3 style="font-size: 1.1rem; color: var(--color-text-title);">Platform Admin</h3>
+          <p style="font-size: 0.8rem; color: var(--color-text-muted);">admin@shopverse.com</p>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li class="sidebar-link active" data-pane="paneUsers">
+            <i data-lucide="users"></i> Manage Users
+          </li>
+          <li class="sidebar-link" data-pane="paneAnalytics">
+            <i data-lucide="bar-chart-2"></i> Sales Analytics
+          </li>
+          <li class="sidebar-link" data-pane="paneApprovals">
+            <i data-lucide="check-square"></i> Approvals
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Right Main Content card -->
+      <section class="dashboard-content-card">
+        <h2>Admin Portal</h2>
+
+        <!-- Stats Overview Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="activity"></i></div>
+            <div class="stat-info">
+              <h4>System Revenue</h4>
+              <p>$18,495.20</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="users"></i></div>
+            <div class="stat-info">
+              <h4>Total Users</h4>
+              <p id="adminTotalUsers">0</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background-color: var(--color-primary-light); color: var(--color-primary);"><i data-lucide="clipboard-list"></i></div>
+            <div class="stat-info">
+              <h4>Pending Approvals</h4>
+              <p id="adminPendingApprovals">2</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 1: User Management -->
+        <div class="dashboard-pane active" id="paneUsers">
+          <h3 style="font-size: 1.25rem; color: var(--color-text-title); margin-bottom: 1rem;">Platform Registered Accounts</h3>
+          <div style="overflow-x: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pane 2: Sales Analytics -->
+        <div class="dashboard-pane" id="paneAnalytics">
+          <h3 style="font-size: 1.25rem; color: var(--color-text-title); margin-bottom: 1.5rem;">Sales Performance Overview</h3>
+          
+          <!-- Mock Chart Container using pure HTML/CSS -->
+          <div style="background-color: var(--color-bg); padding: 2rem; border-radius: var(--border-radius-md); border: 1px solid var(--color-border); margin-bottom: 2rem;">
+            <h4 style="margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--color-text-muted); text-transform: uppercase;">Monthly Revenue Growth (USD)</h4>
+            
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 12rem; padding: 0 1rem; border-bottom: 2px solid var(--color-border); border-left: 2px solid var(--color-border); position: relative;">
+              <!-- Grid lines -->
+              <div style="position: absolute; left: 0; right: 0; bottom: 3rem; border-top: 1px dashed var(--color-border);"></div>
+              <div style="position: absolute; left: 0; right: 0; bottom: 6rem; border-top: 1px dashed var(--color-border);"></div>
+              <div style="position: absolute; left: 0; right: 0; bottom: 9rem; border-top: 1px dashed var(--color-border);"></div>
+              
+              <!-- Bars -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 3.5rem; z-index: 5;">
+                <div style="background-color: var(--color-primary-light); width: 1.5rem; height: 3.5rem; border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;"></div>
+                <span style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500;">Feb</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; align-items: center; width: 3.5rem; z-index: 5;">
+                <div style="background-color: var(--color-primary-light); width: 1.5rem; height: 5.5rem; border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;"></div>
+                <span style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500;">Mar</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; align-items: center; width: 3.5rem; z-index: 5;">
+                <div style="background-color: var(--color-primary-light); width: 1.5rem; height: 7.5rem; border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;"></div>
+                <span style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500;">Apr</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; align-items: center; width: 3.5rem; z-index: 5;">
+                <div style="background-color: var(--color-primary-light); width: 1.5rem; height: 8.5rem; border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;"></div>
+                <span style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500;">May</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; align-items: center; width: 3.5rem; z-index: 5;">
+                <div style="background-color: var(--color-primary); width: 1.5rem; height: 10.5rem; border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;"></div>
+                <span style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 700; color: var(--color-primary);">Jun</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div style="border: 1px solid var(--color-border); padding: 1.25rem; border-radius: var(--border-radius-md);">
+              <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">Category Distribution</h4>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Beauty & Cosmetics: <strong style="color: var(--color-text-title);">42%</strong></p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Fragrances & Perfumes: <strong style="color: var(--color-text-title);">28%</strong></p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Smartphones & Tech: <strong style="color: var(--color-text-title);">30%</strong></p>
+            </div>
+            
+            <div style="border: 1px solid var(--color-border); padding: 1.25rem; border-radius: var(--border-radius-md);">
+              <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">User Engagement</h4>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Monthly Active Visitors: <strong style="color: var(--color-text-title);">18,480</strong></p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Conversion Rate: <strong style="color: var(--color-text-title);">3.84%</strong></p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Avg. Order Value: <strong style="color: var(--color-text-title);">$72.50</strong></p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pane 3: Listings Approval -->
+        <div class="dashboard-pane" id="paneApprovals">
+          <h3 style="font-size: 1.25rem; color: var(--color-text-title); margin-bottom: 1rem;">Pending Seller Listings</h3>
+          <div style="overflow-x: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product Details</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Seller</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminApprovalsTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="footer-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <p>Your one-stop destination for quality products at the best prices.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="seller.html">Seller Portal</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Us</h3>
+        <p>shopverse@goofle.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShopVerse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Global scripts -->
+  <script src="auth.js"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+
+    // Create a list of mock users if not in localStorage
+    const defaultUsersList = [
+      { name: 'Alice Smith', email: 'alice@example.com', role: 'Customer', status: 'Active' },
+      { name: 'Bob Johnson', email: 'bob@example.com', role: 'Vendor', status: 'Active' },
+      { name: 'Charlie Brown', email: 'charlie@example.com', role: 'Customer', status: 'Blocked' }
+    ];
+
+    let users = JSON.parse(localStorage.getItem('adminUsers')) || defaultUsersList;
+    if (!localStorage.getItem('adminUsers')) {
+      localStorage.setItem('adminUsers', JSON.stringify(defaultUsersList));
+    }
+
+    const defaultApprovalsList = [
+      { id: 101, title: 'Smart Watch Pro Max', category: 'smartphones', price: 199.99, seller: 'Bob Tech Store' },
+      { id: 102, title: 'Organic Cucumber Facial Scrub', category: 'beauty', price: 18.50, seller: 'Eco beauty Shop' }
+    ];
+
+    let approvals = JSON.parse(localStorage.getItem('adminApprovals')) || defaultApprovalsList;
+    if (!localStorage.getItem('adminApprovals')) {
+      localStorage.setItem('adminApprovals', JSON.stringify(defaultApprovalsList));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sidebar switching
+      const links = document.querySelectorAll('.sidebar-link');
+      const panes = document.querySelectorAll('.dashboard-pane');
+      
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          links.forEach(l => l.classList.remove('active'));
+          panes.forEach(p => p.classList.remove('active'));
+          
+          link.classList.add('active');
+          const targetPane = link.getAttribute('data-pane');
+          document.getElementById(targetPane).classList.add('active');
+        });
+      });
+
+      renderUsersTable();
+      renderApprovalsTable();
+      updateCartWishlistBadges();
+      
+      lucide.createIcons();
+    });
+
+    function updateCartWishlistBadges() {
+      const cartBadge = document.getElementById('cartBadge');
+      const wishlistBadge = document.getElementById('wishlistBadge');
+      if (cartBadge) cartBadge.textContent = cart.length;
+      if (wishlistBadge) wishlistBadge.textContent = wishlist.length;
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('adminUsersTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      
+      // Pull registered users from localStorage to combine
+      const localRegisteredUsers = JSON.parse(localStorage.getItem('users')) || [];
+      const combinedUsers = [...users];
+      
+      localRegisteredUsers.forEach(u => {
+        if (!combinedUsers.some(existUser => existUser.email === u.email)) {
+          combinedUsers.push({
+            name: u.name,
+            email: u.email,
+            role: 'Customer',
+            status: 'Active'
+          });
+        }
+      });
+
+      document.getElementById('adminTotalUsers').textContent = combinedUsers.length;
+
+      combinedUsers.forEach((u, index) => {
+        const tr = document.createElement('tr');
+        const isBlocked = u.status === 'Blocked';
+        const badgeClass = isBlocked ? 'error' : 'success';
+        const actionText = isBlocked ? 'Activate' : 'Block';
+        const actionColor = isBlocked ? 'color: var(--color-primary);' : 'color: var(--color-accent);';
+
+        tr.innerHTML = `
+          <td><strong>${u.name}</strong></td>
+          <td>${u.email}</td>
+          <td>${u.role}</td>
+          <td><span class="badge ${badgeClass}">${u.status}</span></td>
+          <td>
+            <button onclick="toggleUserStatus(${index}, '${u.email}')" style="background: none; border: none; font-weight: 600; cursor: pointer; ${actionColor}">${actionText}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleUserStatus(index, email) {
+      // Find user in array
+      const localRegisteredUsers = JSON.parse(localStorage.getItem('users')) || [];
+      
+      // If user was from default list
+      let user = users.find(u => u.email === email);
+      if (user) {
+        user.status = user.status === 'Active' ? 'Blocked' : 'Active';
+        localStorage.setItem('adminUsers', JSON.stringify(users));
+      } else {
+        // If user was registered locally
+        showToast('Local registration state updated.', 'info');
+      }
+      
+      renderUsersTable();
+      showToast(`User account status updated.`, 'success');
+    }
+
+    function renderApprovalsTable() {
+      const tbody = document.getElementById('adminApprovalsTableBody');
+      if (!tbody) return;
+
+      if (approvals.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--color-text-muted);">
+              No pending approvals.
+            </td>
+          </tr>
+        `;
+        document.getElementById('adminPendingApprovals').textContent = 0;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      document.getElementById('adminPendingApprovals').textContent = approvals.length;
+
+      approvals.forEach((app, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div>
+              <h4 style="font-size: 0.9rem; font-weight: 600;">${app.title}</h4>
+              <p style="font-size: 0.75rem; color: var(--color-text-muted);">Request ID: #${app.id}</p>
+            </div>
+          </td>
+          <td style="text-transform: capitalize;">${app.category}</td>
+          <td style="font-weight: 700; color: var(--color-primary);">$${app.price.toFixed(2)}</td>
+          <td>${app.seller}</td>
+          <td style="display: flex; gap: 0.75rem;">
+            <button onclick="handleApprovalAction(${index}, true)" style="background: none; border: none; color: #10b981; font-weight: 600; cursor: pointer;">Approve</button>
+            <button onclick="handleApprovalAction(${index}, false)" style="background: none; border: none; color: var(--color-accent); font-weight: 600; cursor: pointer;">Reject</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleApprovalAction(index, approve) {
+      const item = approvals[index];
+      if (approve) {
+        // Add to main catalog (we can mock pushing it into the listed products)
+        const vendorProducts = JSON.parse(localStorage.getItem('vendorProducts')) || [];
+        vendorProducts.push({
+          id: item.id,
+          title: item.title,
+          category: item.category,
+          price: item.price,
+          stock: 15,
+          thumbnail: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&width=100&auto=format&fit=crop',
+          description: 'Approved listing.'
+        });
+        localStorage.setItem('vendorProducts', JSON.stringify(vendorProducts));
+        showToast(`Listing "${item.title}" approved live!`, 'success');
+      } else {
+        showToast(`Listing "${item.title}" rejected.`, 'info');
+      }
+      
+      approvals.splice(index, 1);
+      localStorage.setItem('adminApprovals', JSON.stringify(approvals));
+      renderApprovalsTable();
+    }
+  </script>
+</body>
+</html>

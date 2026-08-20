@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ShopVerse</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="auth-page">
+    
+    <!-- Split Screen Left Side: Marketing Graphics and text -->
+    <div class="auth-split-left">
+      <div class="auth-promo-content">
+        <a href="index.html" class="auth-promo-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <h1 class="auth-promo-title">Welcome Back to ShopVerse.</h1>
+        <p class="auth-promo-subtitle">Login to your account to manage your current orders, review items in your shopping bag, and explore deals personalized just for you.</p>
+        
+        <ul class="auth-features-list">
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Speedy Checkouts</h4>
+              <p>Save shipping addresses and secure cards for one-click ordering.</p>
+            </div>
+          </li>
+          
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Synced Wishlist</h4>
+              <p>Keep your wishlisted items synchronized across all your devices.</p>
+            </div>
+          </li>
+          
+          <li class="auth-feature-item">
+            <span class="auth-feature-check"><i data-lucide="check"></i></span>
+            <div class="auth-feature-text">
+              <h4>Order History Tracking</h4>
+              <p>Track delivery status and view detailed invoices in real-time.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Split Screen Right Side: Glassmorphic registration form card -->
+    <div class="auth-split-right">
+      <div class="auth-card">
+        
+        <div class="auth-header">
+          <h2>Login to Account</h2>
+          <p>Don't have an account? <a href="register.html">Register here</a></p>
+        </div>
+
+        <form class="auth-form" id="loginForm" novalidate>
+          
+          <!-- Email Address -->
+          <div class="form-group" id="groupEmail">
+            <label class="form-label" for="logEmail">Email Address</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="mail"></i>
+              <input type="email" class="form-control" id="logEmail" placeholder="yourname@example.com" required autocomplete="email">
+            </div>
+            <span class="form-error" id="errorEmail">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group" id="groupPassword">
+            <label class="form-label" for="logPassword">Password</label>
+            <div class="form-control-wrapper">
+              <i data-lucide="lock"></i>
+              <input type="password" class="form-control" id="logPassword" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+            <span class="form-error" id="errorPassword">Please enter your password.</span>
+          </div>
+
+          <!-- Checkbox Options -->
+          <div class="form-options">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="logRemember">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <!-- Login Submit Button -->
+          <button type="submit" class="auth-btn">
+            Login Account <i data-lucide="arrow-right" style="width: 1.1rem; height: 1.1rem;"></i>
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Authentication Script -->
+  <script src="auth.js"></script>
+  <script>
+    // Initialize Lucide icons on page load
+    lucide.createIcons();
+  </script>
+</body>
+</html>

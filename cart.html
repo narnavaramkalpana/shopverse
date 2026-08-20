@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - ShopVerse</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html" class="active">Cart</a></li>
+        <li><a href="seller.html">Seller Portal</a></li>
+        <li><a href="admin.html">Admin Portal</a></li>
+        <li><a href="info.html">Help & FAQ</a></li>
+        <li id="authNavItem"><a href="login.html">Login</a></li>
+        <li id="registerNavItem"><a href="register.html">Register</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-btn" title="Wishlist" onclick="scrollToWishlist()">
+          <i data-lucide="heart"></i>
+          <span class="nav-badge" id="wishlistBadge">0</span>
+        </button>
+        <button class="nav-btn" title="Shopping Cart" onclick="window.location.href='cart.html'">
+          <i data-lucide="shopping-cart"></i>
+          <span class="nav-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="min-height: 70vh; padding-top: 2rem;">
+    <h1>Shopping Cart</h1>
+    
+    <div class="cart-grid" id="cartGrid">
+      <!-- Left Column: Cart items table -->
+      <div class="cart-table-card">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cartTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right Column: Order Summary and Coupons -->
+      <div class="summary-card">
+        <h3 class="summary-title">Order Summary</h3>
+        
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summarySubtotal">$0.00</span>
+        </div>
+        <div class="summary-row" id="couponRow" style="display: none; color: #10b981;">
+          <span>Coupon Discount (20%)</span>
+          <span id="summaryDiscount">-$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span id="summaryShipping">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Estimated Tax (18%)</span>
+          <span id="summaryTax">$0.00</span>
+        </div>
+        
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span id="summaryTotal">$0.00</span>
+        </div>
+
+        <!-- Coupon Input Group -->
+        <div class="coupon-group">
+          <label class="form-label" style="font-weight: 500;">Have a Promo Code?</label>
+          <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.15rem;">Try using <strong style="color: var(--color-primary);">SAVE20</strong> for a 20% discount!</p>
+          <div class="coupon-input-wrapper">
+            <input type="text" class="coupon-input" id="couponInput" placeholder="SAVE20">
+            <button class="coupon-apply-btn" id="couponApplyBtn">Apply</button>
+          </div>
+          <span id="couponFeedback" style="display: block; font-size: 0.75rem; margin-top: 0.25rem;"></span>
+        </div>
+
+        <button class="checkout-btn" id="proceedCheckoutBtn">
+          Proceed to Checkout <i data-lucide="arrow-right" style="width: 1.1rem; height: 1.1rem;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Wishlist Section -->
+    <section id="wishlistSection" style="margin-top: 4rem; margin-bottom: 5rem; border-top: 1px solid var(--color-border); padding-top: 3rem;">
+      <h2>My Wishlist</h2>
+      <div class="product-grid" id="wishlistGrid" style="margin-top: 1.5rem;">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="footer-logo">
+          <i data-lucide="shopping-bag"></i> Shop<span>Verse</span>
+        </a>
+        <p>Your one-stop destination for quality products at the best prices. Discover deals, order securely, and enjoy fast home delivery.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="seller.html">Seller Portal</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Subscribe</h3>
+        <p>Subscribe to receive sales alerts, coupons, and new stock notifications.</p>
+        <form class="subscribe-form" onsubmit="event.preventDefault(); showToast('Subscribed successfully!', 'success');">
+          <input type="email" class="subscribe-input" placeholder="Enter your email" required>
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i data-lucide="phone" style="width: 1rem; height: 1rem;"></i>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="contact-item">
+            <i data-lucide="mail" style="width: 1rem; height: 1rem;"></i>
+            <span>shopverse@goofle.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShopVerse. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Global scripts -->
+  <script src="auth.js"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+    let couponApplied = localStorage.getItem('couponApplied') === 'true';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCartTable();
+      renderWishlistGrid();
+      updateCartWishlistBadges();
+      
+      const couponApplyBtn = document.getElementById('couponApplyBtn');
+      if (couponApplyBtn) {
+        couponApplyBtn.addEventListener('click', handleApplyCoupon);
+      }
+      
+      const couponInput = document.getElementById('couponInput');
+      if (couponInput && couponApplied) {
+        couponInput.value = 'SAVE20';
+        couponInput.disabled = true;
+        couponApplyBtn.disabled = true;
+        couponApplyBtn.textContent = 'Applied';
+        const feedback = document.getElementById('couponFeedback');
+        feedback.textContent = 'Promo code SAVE20 applied successfully!';
+        feedback.style.color = '#10b981';
+      }
+
+      const proceedCheckoutBtn = document.getElementById('proceedCheckoutBtn');
+      if (proceedCheckoutBtn) {
+        proceedCheckoutBtn.addEventListener('click', () => {
+          if (cart.length === 0) {
+            showToast('Your cart is empty. Add products to checkout!', 'error');
+          } else {
+            window.location.href = 'checkout.html';
+          }
+        });
+      }
+      
+      lucide.createIcons();
+    });
+
+    function scrollToWishlist() {
+      const sect = document.getElementById('wishlistSection');
+      if (sect) sect.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateCartWishlistBadges() {
+      const cartBadge = document.getElementById('cartBadge');
+      const wishlistBadge = document.getElementById('wishlistBadge');
+      if (cartBadge) cartBadge.textContent = cart.length;
+      if (wishlistBadge) wishlistBadge.textContent = wishlist.length;
+    }
+
+    function renderCartTable() {
+      const tbody = document.getElementById('cartTableBody');
+      const grid = document.getElementById('cartGrid');
+      
+      if (!tbody) return;
+      
+      if (cart.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 5rem 2rem; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-sm);">
+            <i data-lucide="shopping-cart" style="width: 4rem; height: 4rem; color: var(--color-text-muted); margin: 0 auto 1.5rem;"></i>
+            <h2 style="margin-bottom: 0.5rem;">Your shopping cart is empty</h2>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Explore trending deals in the storefront and add items to your cart!</p>
+            <a href="index.html" class="auth-btn" style="display: inline-flex; width: auto; padding: 0.75rem 2rem;">Go Shopping</a>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+        return;
+      }
+
+      tbody.innerHTML = '';
+      
+      // Calculate subtotals by grouping duplicate products
+      // To keep it simple, we count frequencies of product IDs in cart
+      const uniqueItems = [];
+      const counts = {};
+      
+      cart.forEach(item => {
+        if (!counts[item.id]) {
+          counts[item.id] = 1;
+          uniqueItems.push(item);
+        } else {
+          counts[item.id]++;
+        }
+      });
+
+      uniqueItems.forEach(item => {
+        const qty = counts[item.id];
+        const itemTotal = (item.price * qty).toFixed(2);
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="cart-product-cell">
+              <img src="${item.thumbnail}" class="cart-product-img" alt="${item.title}">
+              <div>
+                <h4 style="font-size: 0.95rem; font-weight: 600;">${item.title}</h4>
+                <p style="font-size: 0.75rem; color: var(--color-text-muted);">${item.category}</p>
+              </div>
+            </div>
+          </td>
+          <td style="font-weight: 500;">$${item.price.toFixed(2)}</td>
+          <td>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="adjustQty(${item.id}, -1)"><i data-lucide="minus" style="width: 0.9rem; height: 0.9rem;"></i></button>
+              <span class="qty-val">${qty}</span>
+              <button class="qty-btn" onclick="adjustQty(${item.id}, 1)"><i data-lucide="plus" style="width: 0.9rem; height: 0.9rem;"></i></button>
+            </div>
+          </td>
+          <td style="font-weight: 700; color: var(--color-primary);">$${itemTotal}</td>
+          <td>
+            <button class="cart-remove-btn" onclick="removeFromCart(${item.id})" title="Remove item"><i data-lucide="trash-2" style="width: 1.1rem; height: 1.1rem;"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      if (window.lucide) window.lucide.createIcons();
+      calculateTotals();
+    }
+
+    function adjustQty(productId, direction) {
+      if (direction === 1) {
+        // Find product from cart and append
+        const item = cart.find(p => p.id === productId);
+        if (item) cart.push(item);
+      } else {
+        // Find index of one product instance and delete
+        const index = cart.findIndex(p => p.id === productId);
+        if (index !== -1) cart.splice(index, 1);
+      }
+      
+      localStorage.setItem('cartItems', JSON.stringify(cart));
+      renderCartTable();
+      updateCartWishlistBadges();
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(p => p.id !== productId);
+      localStorage.setItem('cartItems', JSON.stringify(cart));
+      renderCartTable();
+      updateCartWishlistBadges();
+      showToast('Item removed from cart.', 'info');
+    }
+
+    function calculateTotals() {
+      let subtotal = 0;
+      cart.forEach(item => subtotal += item.price);
+
+      let discount = 0;
+      if (couponApplied) {
+        discount = subtotal * 0.20;
+        document.getElementById('couponRow').style.display = 'flex';
+        document.getElementById('summaryDiscount').textContent = `-$${discount.toFixed(2)}`;
+      } else {
+        document.getElementById('couponRow').style.display = 'none';
+      }
+
+      const shipping = subtotal > 50 || subtotal === 0 ? 0 : 10;
+      const tax = (subtotal - discount) * 0.18;
+      const total = subtotal - discount + shipping + tax;
+
+      document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('summaryShipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+      document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function handleApplyCoupon() {
+      const code = document.getElementById('couponInput').value.trim().toUpperCase();
+      const feedback = document.getElementById('couponFeedback');
+      
+      if (code === 'SAVE20') {
+        couponApplied = true;
+        localStorage.setItem('couponApplied', 'true');
+        feedback.textContent = 'Promo code SAVE20 applied successfully! Saved 20%.';
+        feedback.style.color = '#10b981';
+        document.getElementById('couponInput').disabled = true;
+        document.getElementById('couponApplyBtn').disabled = true;
+        document.getElementById('couponApplyBtn').textContent = 'Applied';
+        calculateTotals();
+        showToast('Coupon code applied successfully!', 'success');
+      } else {
+        feedback.textContent = 'Invalid promo code. Try SAVE20.';
+        feedback.style.color = 'var(--color-accent)';
+        showToast('Invalid promo code.', 'error');
+      }
+    }
+
+    function renderWishlistGrid() {
+      const grid = document.getElementById('wishlistGrid');
+      if (!grid) return;
+      
+      if (wishlist.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--color-text-muted);">
+            <p>Your wishlist is empty.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = '';
+      
+      wishlist.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <button class="wishlist-card-btn active" onclick="removeFromWishlist(${product.id})" title="Remove from Wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          
+          <div class="product-img-wrapper" style="height: 10rem;">
+            <img src="${product.thumbnail}" class="product-img" alt="${product.title}">
+          </div>
+          
+          <div class="product-info" style="padding: 1rem;">
+            <h3 class="product-title" style="height: auto; font-size: 0.875rem; margin-bottom: 0.25rem;">${product.title}</h3>
+            <div class="product-price" style="font-size: 1rem; margin-bottom: 1rem;">$${product.price.toFixed(2)}</div>
+            
+            <button class="add-to-cart-btn" onclick="moveFromWishlistToCart(${product.id})" style="padding: 0.5rem; font-size: 0.8rem;">
+              Move to Cart
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function removeFromWishlist(productId) {
+      wishlist = wishlist.filter(p => p.id !== productId);
+      localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+      renderWishlistGrid();
+      updateCartWishlistBadges();
+      showToast('Item removed from wishlist.', 'info');
+    }
+
+    function moveFromWishlistToCart(productId) {
+      const product = wishlist.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+        
+        wishlist = wishlist.filter(p => p.id !== productId);
+        localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+        
+        renderCartTable();
+        renderWishlistGrid();
+        updateCartWishlistBadges();
+        showToast(`"${product.title}" moved to shopping bag!`, 'success');
+      }
+    }
+  </script>
+</body>
+</html>
